@@ -514,7 +514,7 @@ GENHRDS := $(SRCS:.c=.h)
 indent:
 	indent -fca -fc1 -bbb -bad -bap -sob -ce -i8 -bli0 -bls -blf $(HDRS) $(SRCS)
 	@echo "Modifs: "
-	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ;  diff -u $$a~ $$a && { echo " inchangé" ; mv -f $$a~ $$a ; } ; done ; exit 0 ; )
+	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ;  diff -u $$a~ $$a && { echo " unchanged, restoring time stamp" ; mv -f $$a~ $$a ; } ; done ; exit 0 ; )
 
 astyle:
 	astyle --mode=c --lineend=linux --indent=spaces=8 --style=ansi --add-brackets --indent-switches --indent-classes --indent-preprocessor --convert-tabs --break-blocks --pad-oper --pad-paren-in --pad-header --unpad-paren --align-pointer=name $(HDRS) $(SRCS)
