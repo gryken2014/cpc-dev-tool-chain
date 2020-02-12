@@ -258,7 +258,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	true ; \
 	} >"$${OUTFILE}.tmp" \
 	&& grep -q "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
-	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; fi \
+	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; exit 1 ; fi \
 	)
 
 %.generated.s: %.png Makefile $(CDTC_ENV_FOR_PNG2CPCSPRITE) cdtc_project.conf
