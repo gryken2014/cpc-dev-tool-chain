@@ -654,6 +654,21 @@ int main(int argc, const char **argv)
                         // Yes, we don't cleanup.  Quick and dirty!
                         exit(1);
                 }
+
+                {
+                        u_int8_t component_size =
+                                PNG_IMAGE_SAMPLE_COMPONENT_SIZE(image.format);
+                        printf("PNG component_size %u.\n", component_size);
+                        if (component_size != 1)
+                        {
+                                fprintf(stderr,
+                                        "Warning: component_size different "
+                                        "from 1 (currently %u) not "
+                                        "supported.\n",
+                                        component_size);
+                                exit(1);
+                        }
+                }
         }
 
         printf("Finished decoding PNG. Processing.\n");
