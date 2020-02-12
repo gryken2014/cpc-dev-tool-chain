@@ -213,8 +213,8 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	set -eu ; \
 	RELFILE="$(patsubst %.s,%.rel,$<)" ; \
 	OUTFILE="$(patsubst %.s,%.generated_from_asm_exported_symbols.h,$<)" ; \
-	if $(SDAS) $(SDASFLAGS) "$$RELFILE" $< \
-	&& { \
+	$(SDAS) $(SDASFLAGS) "$$RELFILE" $< || exit 1 ; \
+	{ \
 	echo "#include <stdint.h>" ; \
 	echo ; \
 	echo "// This file is generated from assembler's relocatable output:" ; \
@@ -257,9 +257,9 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	echo "#define ASMCONST_$${LABEL}_as_uint16_t_p ((uint16_t *)0x$${ADDRESS})" ; \
 	done ; \
 	true ; \
-	} >"$${OUTFILE}.tmp" \
-	&& grep -q "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
-	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; exit 1 ; fi \
+	} >"$${OUTFILE}.tmp" ; \
+	if grep -q "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
+	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; fi \
 	)
 
 %.generated.s: %.png Makefile $(CDTC_ENV_FOR_PNG2CPCSPRITE) cdtc_project.conf
