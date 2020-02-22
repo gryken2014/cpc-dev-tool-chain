@@ -519,7 +519,7 @@ indent:
 astyle:
 	astyle --mode=c --lineend=linux --indent=spaces=8 --style=ansi --add-brackets --indent-switches --indent-classes --indent-preprocessor --convert-tabs --break-blocks --pad-oper --pad-paren-in --pad-header --unpad-paren --align-pointer=name $(HDRS) $(SRCS)
 	@echo "Modifs: "
-	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ;  diff -u $$a~ $$a && { echo " inchangé" ; mv -f $$a~ $$a ; } ; done ; exit 0 ; )
+	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ; [[ -r $${a}.orig ]] || continue ; diff -u $${a}.orig $$a && echo " inchangé" ; rm -f $${a}.orig ; done ; exit 0 ; )
 
 # Headers générés automatiquement
 %.h: %.c Makefile
